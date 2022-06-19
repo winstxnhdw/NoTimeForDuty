@@ -1,8 +1,9 @@
 const next_month = new Date().getMonth() + 1
 const scrollbox = document.getElementById('scrollbox')
 const starting_text = scrollbox.textContent
-
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
+let text_to_copy = starting_text
 
 function on_date_change() {
   const selected_dates = $('.date').datepicker('getDates')
@@ -16,7 +17,12 @@ function on_date_change() {
     dates.push(`${date}/${month}/${year} (${day})`)
   })
 
-  $('#scrollbox').text(`${starting_text}\n\n${dates.join('\n')}`)
+  text_to_copy = `${starting_text}\n\n${dates.join('\n')}`
+  $('#scrollbox').text(text_to_copy)
+}
+
+function copy_to_clipboard() {
+  navigator.clipboard.writeText(text_to_copy)
 }
 
 $(document).ready(() => {
@@ -32,4 +38,6 @@ $(document).ready(() => {
       }
     })
     .on('changeDate', on_date_change)
+
+  $('#copy-button').click(copy_to_clipboard)
 })
