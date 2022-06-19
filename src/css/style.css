@@ -44,6 +44,7 @@
 }
 
 #scrollbox {
+  margin-bottom: 10px;
   height: 30vh;
   width: 30vw;
   overflow: auto;
