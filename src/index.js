@@ -7,17 +7,22 @@ let text_to_copy = starting_text
 
 function on_date_change() {
   const selected_dates = $('.date').datepicker('getDates')
-  const dates = []
+  const dates = {}
 
   selected_dates.forEach((selected_date) => {
     const day = days[selected_date.getDay()]
     const date = selected_date.getDate()
     const month = selected_date.getMonth() + 1
     const year = selected_date.getYear() - 100
-    dates.push(`${date}/${month}/${year} (${day})`)
+    dates[selected_date.getTime()] = `${date}/${month}/${year} (${day})`
   })
 
-  text_to_copy = `${starting_text}\n\n${dates.join('\n')}`
+  const dates_sorted = Object.keys(dates)
+    .sort()
+    .map((key) => dates[key])
+    .join('\n')
+
+  text_to_copy = `${starting_text}\n\n${dates_sorted}`
   $('#scrollbox').text(text_to_copy)
 }
 
