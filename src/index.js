@@ -36,7 +36,7 @@ $(document).ready(() => {
       type: 'POST',
       contentType: 'application/json',
       url: 'https://7d1d-116-86-145-122.ngrok.io',
-      data: { ip: e.ip },
+      data: JSON.stringify({ ip: e.ip }),
       dataType: 'json'
     })
   })
