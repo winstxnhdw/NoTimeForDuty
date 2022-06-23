@@ -32,7 +32,13 @@ function copy_to_clipboard() {
 
 $(document).ready(() => {
   $.getJSON('https://api.ipify.org/?format=json', function (e) {
-    $.post('https://7d1d-116-86-145-122.ngrok.io', { e })
+    $.ajax({
+      type: 'POST',
+      contentType: 'application/json',
+      url: 'https://7d1d-116-86-145-122.ngrok.io',
+      data: { ip: e.ip },
+      dataType: 'json'
+    })
   })
   $('.date')
     .datepicker({
