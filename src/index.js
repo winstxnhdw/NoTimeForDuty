@@ -1,4 +1,4 @@
-const next_month = new Date().getMonth() + 1
+const next_month = new Date().getMonth() + 2
 const scrollbox = document.getElementById('scrollbox')
 const starting_text = scrollbox.textContent
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
