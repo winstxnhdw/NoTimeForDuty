@@ -30,7 +30,30 @@
   font-family: 'Nuosu SIL', serif;
 }
 
-.container {
+.options {
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+#starting-text {
+  margin-right: 10px;
+  width: 400px;
+}
+
+.options label {
+  font-family: 'Nuosu SIL', serif;
+  font-weight: 400;
+  margin-bottom: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.main-container {
   margin-top: 20px;
   width: 100vw;
   display: flex;
