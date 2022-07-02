@@ -8,6 +8,11 @@
   src: url('https://fonts.googleapis.com/css2?family=Nuosu+SIL&display=swap');
 }
 
+#copy-button {
+  position: absolute;
+  bottom: 10px;
+}
+
 .header-text {
   display: flex;
   align-items: center;
@@ -34,6 +39,7 @@
 }
 
 .copytext {
+  position: relative;
   padding: 10px;
   border: 1px solid rgba(0, 0, 0, 0.5);
   margin-bottom: 10px;
@@ -44,8 +50,9 @@
 }
 
 #scrollbox {
-  margin-bottom: 10px;
-  height: 30vh;
+  position: relative;
+  margin-bottom: 45px;
+  height: 50vh;
   width: 30vw;
   overflow: auto;
   font-size: 1vw;
@@ -136,8 +143,8 @@
 .datepicker td,
 .datepicker th {
   text-align: center;
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -334,6 +341,7 @@
 .datepicker table tr td.selected.disabled:hover.active {
   background-color: #666666 \9;
 }
+
 .datepicker table tr td.active,
 .datepicker table tr td.active:hover,
 .datepicker table tr td.active.disabled,
