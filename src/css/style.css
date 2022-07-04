@@ -8,6 +8,11 @@
   src: url('https://fonts.googleapis.com/css2?family=Nuosu+SIL&display=swap');
 }
 
+footer {
+  margin-top: 100px;
+  text-align: center;
+}
+
 #copy-button {
   position: absolute;
   bottom: 10px;
