@@ -13,7 +13,7 @@ const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
 const starting_text_element = document.querySelector<HTMLInputElement>('#starting-text')
 const scrollbox_element = document.querySelector<HTMLDivElement>('#scrollbox')
-const day_of_the_week_element = document.querySelector<HTMLInputElement>('#day-of-the-week')
+const show_day_element = document.querySelector<HTMLInputElement>('#show-day')
 
 function on_date_change() {
   const selected_dates: Date[] = $('.date').datepicker('getDates')
@@ -64,12 +64,12 @@ function set_starting_text() {
 
 function output_result() {
   if (!scrollbox_element) throw new Error(`Scrollbox element not found`)
-  if (!day_of_the_week_element) throw new Error(`Day of the week element not found`)
+  if (!show_day_element) throw new Error(`Show day element not found`)
 
   const dates_string = dates_sorted
     ? dates_sorted
         .map((date_obj) => {
-          return `${date_obj.date} ${day_of_the_week_element.checked ? date_obj.day : ''}`
+          return `${date_obj.date} ${show_day_element.checked ? date_obj.day : ''}`
         })
         .join('\n')
     : ''
@@ -95,7 +95,7 @@ $(() => {
     })
     .on('changeDate', on_date_change)
 
-  $('#day-of-the-week').on('change', output_result)
+  $('#show-day').on('change', output_result)
   $('#starting-text').on('input', on_starting_text_change)
   $('#copy-button').on('click', on_copy)
 })
