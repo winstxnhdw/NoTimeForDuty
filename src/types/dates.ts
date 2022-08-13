@@ -1,3 +1,6 @@
 export type FormattedDates = {
-  [key: string]: string
+  [key: string]: {
+    date: string
+    day: string
+  }
 }

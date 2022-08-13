@@ -13,25 +13,28 @@ const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
 const starting_text_element = document.querySelector<HTMLInputElement>('#starting-text')
 const scrollbox_element = document.querySelector<HTMLDivElement>('#scrollbox')
+const day_of_the_week_element = document.querySelector<HTMLInputElement>('#day-of-the-week')
 
 function on_date_change() {
   const selected_dates: Date[] = $('.date').datepicker('getDates')
-  const output_day_of_the_week = $('#day-of-the-week').is(':checked')
 
   const dates = selected_dates.reduce((new_dates, selected_date) => {
     const date = pad_zero_two(selected_date.getDate())
     const month = pad_zero_two(selected_date.getMonth() + 1)
     const year = selected_date.getFullYear()
-    const day = output_day_of_the_week ? ` (${days[selected_date.getDay()]})` : ''
+    const day = `(${days[selected_date.getDay()]})`
 
-    new_dates[selected_date.getTime()] = `${date}/${month}/${year}${day}`
+    new_dates[selected_date.getTime()] = {
+      date: `${date}/${month}/${year}`,
+      day: day
+    }
+
     return new_dates
   }, {} as FormattedDates)
 
   dates_sorted = Object.keys(dates)
     .sort()
     .map((key) => dates[key])
-    .join('\n')
 
   output_result()
 }
@@ -61,11 +64,21 @@ function set_starting_text() {
 
 function output_result() {
   if (!scrollbox_element) throw new Error(`Scrollbox element not found`)
-  scrollbox_element.textContent = `${starting_text}\n\n${dates_sorted}`
+  if (!day_of_the_week_element) throw new Error(`Day of the week element not found`)
+
+  const dates_string = dates_sorted
+    ? dates_sorted
+        .map((date_obj) => {
+          return `${date_obj.date} ${day_of_the_week_element.checked ? date_obj.day : ''}`
+        })
+        .join('\n')
+    : ''
+
+  scrollbox_element.textContent = `${starting_text}\n\n${dates_string}`
 }
 
 let starting_text = ''
-let dates_sorted = ''
+let dates_sorted: { date: string; day: string }[]
 
 $(() => {
   starting_text = PlasticCookie.get('starting-text') || get_starting_text()
@@ -82,7 +95,7 @@ $(() => {
     })
     .on('changeDate', on_date_change)
 
-  $('#day-of-the-week').on('change', on_date_change)
+  $('#day-of-the-week').on('change', output_result)
   $('#starting-text').on('input', on_starting_text_change)
   $('#copy-button').on('click', on_copy)
 })
