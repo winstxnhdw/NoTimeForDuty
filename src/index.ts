@@ -1,72 +1,81 @@
-import $ from 'jquery'
-import PlasticCookie from './helpers/PlasticCookie'
+import type { FormattedDates } from './types/dates'
 
-type FormattedDates = {
-  [key: string]: string
-}
+import 'bootstrap-datepicker'
+import $ from 'jquery'
+import pad_zero_two from './helpers/pad-zero-two'
+import PlasticCookie from './helpers/PlasticCookie'
+import Clipboard from './helpers/Clipboard'
 
 const current_date = new Date()
-const next_month = current_date.getMonth() + 2
-const start_date = new Date(current_date.getFullYear(), next_month)
-const scrollbox = document.getElementById('scrollbox')
-const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+const start_month = current_date.getMonth() + 2
+const start_date = new Date(current_date.getFullYear(), start_month)
+const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
-let starting_text = get_starting_text()
-let text_to_copy: string = starting_text
-let dates_sorted = ''
+const starting_text_element = document.querySelector<HTMLInputElement>('#starting-text')
+const scrollbox_element = document.querySelector<HTMLDivElement>('#scrollbox')
 
 function on_date_change() {
   const selected_dates: Date[] = $('.date').datepicker('getDates')
-  const dates = {} as FormattedDates
   const output_day_of_the_week = $('#day-of-the-week').is(':checked')
 
-  selected_dates.forEach((selected_date) => {
-    const date = selected_date.getDate()
-    const month = selected_date.getMonth() + 1
-    const year = selected_date.getFullYear() - 100
-
+  const dates = selected_dates.reduce((new_dates, selected_date) => {
+    const date = pad_zero_two(selected_date.getDate())
+    const month = pad_zero_two(selected_date.getMonth() + 1)
+    const year = selected_date.getFullYear()
     const day = output_day_of_the_week ? ` (${days[selected_date.getDay()]})` : ''
-    dates[selected_date.getTime()] = `${date}/${month}/${year}${day}`
-  })
+
+    new_dates[selected_date.getTime()] = `${date}/${month}/${year}${day}`
+    return new_dates
+  }, {} as FormattedDates)
 
   dates_sorted = Object.keys(dates)
     .sort()
     .map((key) => dates[key])
     .join('\n')
 
-  output_dates()
+  output_result()
+}
+
+function on_starting_text_change() {
+  starting_text = get_starting_text()
+  PlasticCookie.set('starting-text', starting_text)
+  output_result()
 }
 
 function get_starting_text() {
-  const selector = '#starting-text'
-  const starting_text = document.querySelector<HTMLInputElement>(selector)
-  if (!starting_text) throw new Error(`Selector ${selector} not found`)
-
-  return starting_text.value
+  if (!starting_text_element) throw new Error(`Starting text element not found`)
+  return starting_text_element.value
 }
 
-function update_starting_text() {
-  PlasticCookie.set('starting-text', get_starting_text())
-  output_dates()
+function set_starting_text(text: string) {
+  if (!starting_text_element) throw new Error(`Starting text element not found`)
+  starting_text_element.value = text
 }
 
-function output_dates() {
-  text_to_copy = `${starting_text}\n\n${dates_sorted}`
-  $('#scrollbox').text(text_to_copy)
+function get_scrollbox_text() {
+  if (!scrollbox_element) throw new Error(`Scrollbox element not found`)
+
+  const scrollbox_text = scrollbox_element.textContent
+  return scrollbox_text ? scrollbox_text : ''
 }
 
-function copy_to_clipboard() {
-  navigator.clipboard.writeText(text_to_copy)
+function set_scrollbox_text(text: string) {
+  if (!scrollbox_element) throw new Error(`Scrollbox element not found`)
+  scrollbox_element.textContent = text
 }
+
+function output_result() {
+  set_scrollbox_text(`${starting_text}\n\n${dates_sorted}`)
+}
+
+let starting_text = ''
+let dates_sorted = ''
 
 $(() => {
-  const cookie_starting_text = PlasticCookie.get('starting-text')
-  if (cookie_starting_text) {
-    starting_text = cookie_starting_text
-    $('#starting-text').val(starting_text)
-  }
+  starting_text = PlasticCookie.get('starting-text') || get_starting_text()
+  set_starting_text(starting_text)
+  output_result()
 
-  output_dates()
   $('.date')
     .datepicker({
       multidate: true,
@@ -78,7 +87,6 @@ $(() => {
     .on('changeDate', on_date_change)
 
   $('#day-of-the-week').on('change', on_date_change)
-  $('#starting-text').on('input', update_starting_text)
-
-  $('#copy-button').on('click', copy_to_clipboard)
+  $('#starting-text').on('input', on_starting_text_change)
+  $('#copy-button').on('click', () => Clipboard.add(get_scrollbox_text()))
 })
