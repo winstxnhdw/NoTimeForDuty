@@ -42,30 +42,26 @@ function on_starting_text_change() {
   output_result()
 }
 
+function on_copy() {
+  if (!scrollbox_element) throw new Error(`Scrollbox element not found`)
+
+  const scrollbox_text = scrollbox_element.textContent
+  Clipboard.add(scrollbox_text ? scrollbox_text : '')
+}
+
 function get_starting_text() {
   if (!starting_text_element) throw new Error(`Starting text element not found`)
   return starting_text_element.value
 }
 
-function set_starting_text(text: string) {
+function set_starting_text() {
   if (!starting_text_element) throw new Error(`Starting text element not found`)
-  starting_text_element.value = text
-}
-
-function get_scrollbox_text() {
-  if (!scrollbox_element) throw new Error(`Scrollbox element not found`)
-
-  const scrollbox_text = scrollbox_element.textContent
-  return scrollbox_text ? scrollbox_text : ''
-}
-
-function set_scrollbox_text(text: string) {
-  if (!scrollbox_element) throw new Error(`Scrollbox element not found`)
-  scrollbox_element.textContent = text
+  starting_text_element.value = starting_text
 }
 
 function output_result() {
-  set_scrollbox_text(`${starting_text}\n\n${dates_sorted}`)
+  if (!scrollbox_element) throw new Error(`Scrollbox element not found`)
+  scrollbox_element.textContent = `${starting_text}\n\n${dates_sorted}`
 }
 
 let starting_text = ''
@@ -73,7 +69,7 @@ let dates_sorted = ''
 
 $(() => {
   starting_text = PlasticCookie.get('starting-text') || get_starting_text()
-  set_starting_text(starting_text)
+  set_starting_text()
   output_result()
 
   $('.date')
@@ -88,5 +84,5 @@ $(() => {
 
   $('#day-of-the-week').on('change', on_date_change)
   $('#starting-text').on('input', on_starting_text_change)
-  $('#copy-button').on('click', () => Clipboard.add(get_scrollbox_text()))
+  $('#copy-button').on('click', on_copy)
 })
