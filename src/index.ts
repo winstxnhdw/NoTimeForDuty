@@ -1,5 +1,3 @@
-import type { FormattedDates } from './types/dates'
-
 import 'bootstrap-datepicker'
 import $ from 'jquery'
 import pad_zero_two from './helpers/pad-zero-two'
@@ -24,18 +22,15 @@ function on_date_change() {
     const year = selected_date.getFullYear()
     const day = `(${days[selected_date.getDay()]})`
 
-    new_dates[selected_date.getTime()] = {
+    new_dates.set(selected_date.getTime(), {
       date: `${date}/${month}/${year}`,
       day: day
-    }
+    })
 
     return new_dates
-  }, {} as FormattedDates)
+  }, new Map<Number, { date: string; day: string }>())
 
-  dates_sorted = Object.keys(dates)
-    .sort()
-    .map((key) => dates[key])
-
+  dates_sorted = [...new Map([...dates].sort()).values()]
   output_result()
 }
 
