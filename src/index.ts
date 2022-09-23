@@ -1,8 +1,8 @@
 import 'bootstrap-datepicker'
 import $ from 'jquery'
-import pad_zero_two from './helpers/pad-zero-two'
-import PlasticCookie from './helpers/PlasticCookie'
-import Clipboard from './helpers/Clipboard'
+import pad_zero_two from '@/helpers/pad-zero-two'
+import PlasticCookie from '@/helpers/PlasticCookie'
+import Clipboard from '@/helpers/Clipboard'
 
 const current_date = new Date()
 const start_month = current_date.getMonth() + 2
