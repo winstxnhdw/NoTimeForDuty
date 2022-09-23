@@ -11,7 +11,7 @@ yarn
 ## Usage
 
 ```bash
-yarn start
+yarn dev
 ```
 
 ## Build

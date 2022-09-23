@@ -1,6 +1,6 @@
 import 'bootstrap-datepicker'
 import $ from 'jquery'
-import pad_zero_two from '@/utils/pad-zero-two'
+import pad_zero_two from '@/utils/padding'
 import PlasticCookie from '@/helpers/PlasticCookie'
 import Clipboard from '@/helpers/Clipboard'
 
