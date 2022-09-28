@@ -1,3 +1,1 @@
-export default function pad_zero_two(text: string | Number) {
-  return String(text).padStart(2, '0')
-}
+export const pad_zero_two = (text: string | Number) => String(text).padStart(2, '0')

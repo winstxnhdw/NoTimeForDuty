@@ -1,4 +1,4 @@
-export default class PlasticCookie {
+export class PlasticCookie {
   static epochalypse_date = new Date(2147483647000).toUTCString()
 
   static get(name: string) {
