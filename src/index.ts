@@ -28,7 +28,7 @@ function on_date_change() {
     })
 
     return new_dates
-  }, new Map<Number, { date: string; day: string }>())
+  }, new Map<number, { date: string; day: string }>())
 
   dates_sorted = [...new Map([...dates].sort()).values()]
   output_result()
