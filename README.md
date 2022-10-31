@@ -13,11 +13,11 @@ yarn
 ## Usage
 
 ```bash
-yarn dev
+yarn turbo dev
 ```
 
 ## Build
 
 ```bash
-yarn build
+yarn turbo build
 ```
