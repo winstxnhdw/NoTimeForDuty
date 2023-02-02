@@ -13,8 +13,13 @@ const starting_text_element = document.querySelector<HTMLInputElement>('#startin
 const scrollbox_element = document.querySelector<HTMLDivElement>('#scrollbox')
 const show_day_element = document.querySelector<HTMLInputElement>('#show-day')
 
+type DateWithDay = {
+  date: string
+  day: string
+}
+
 function on_date_change() {
-  const selected_dates: Date[] = $('.date').datepicker('getDates')
+  const selected_dates = $('.date').datepicker('getDates') as Date[]
 
   const dates = selected_dates.reduce((new_dates, selected_date) => {
     const date = pad_zero_two(selected_date.getDate())
@@ -28,7 +33,7 @@ function on_date_change() {
     })
 
     return new_dates
-  }, new Map<number, { date: string; day: string }>())
+  }, new Map<number, DateWithDay>())
 
   dates_sorted = [...new Map([...dates].sort()).values()]
   output_result()
@@ -73,7 +78,7 @@ function output_result() {
 }
 
 let starting_text = ''
-let dates_sorted: { date: string; day: string }[]
+let dates_sorted: DateWithDay[]
 
 $(() => {
   starting_text = PlasticCookie.get('starting-text') || get_starting_text()
