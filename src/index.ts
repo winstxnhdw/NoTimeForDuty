@@ -1,8 +1,8 @@
+import * as clipboard from '@/helpers/clipboard'
+import * as cookie from '@/helpers/cookie'
+import { pad_zero_two } from '@/utils/padding'
 import 'bootstrap-datepicker'
 import $ from 'jquery'
-import { pad_zero_two } from '@/utils/padding'
-import { PlasticCookie } from '@/helpers/PlasticCookie'
-import { Clipboard } from '@/helpers/Clipboard'
 
 const current_date = new Date()
 const start_month = current_date.getMonth() + 2
@@ -29,7 +29,7 @@ function on_date_change() {
 
     new_dates.set(selected_date.getTime(), {
       date: `${date}/${month}/${year}`,
-      day: day
+      day: day,
     })
 
     return new_dates
@@ -41,15 +41,15 @@ function on_date_change() {
 
 function on_starting_text_change() {
   starting_text = get_starting_text()
-  PlasticCookie.set('starting-text', starting_text)
+  cookie.set('starting-text', starting_text)
   output_result()
 }
 
-function on_copy() {
+async function on_copy() {
   if (!scrollbox_element) throw new Error(`Scrollbox element not found`)
 
   const scrollbox_text = scrollbox_element.textContent
-  Clipboard.add(scrollbox_text ? scrollbox_text : '')
+  await clipboard.add(scrollbox_text ? scrollbox_text : '')
 }
 
 function get_starting_text() {
@@ -81,7 +81,7 @@ let starting_text = ''
 let dates_sorted: DateWithDay[]
 
 $(() => {
-  starting_text = PlasticCookie.get('starting-text') || get_starting_text()
+  starting_text = cookie.get('starting-text') || get_starting_text()
   set_starting_text()
   output_result()
 
@@ -91,11 +91,13 @@ $(() => {
       format: 'dd/mm/yyyy',
       calendarWeeks: true,
       clearBtn: true,
-      defaultViewDate: start_date
+      defaultViewDate: start_date,
     })
     .on('changeDate', on_date_change)
 
   $('#show-day').on('change', output_result)
   $('#starting-text').on('input', on_starting_text_change)
-  $('#copy-button').on('click', on_copy)
+  $('#copy-button').on('click', () => {
+    on_copy().catch(console.error)
+  })
 })
