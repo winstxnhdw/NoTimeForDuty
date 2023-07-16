@@ -2,7 +2,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "format": "prettier ."
   },
   "dependencies": {
     "bootstrap-datepicker": "^1.10.0",
