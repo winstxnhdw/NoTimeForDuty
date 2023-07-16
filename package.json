@@ -3,7 +3,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "format": "prettier ."
+    "format": "prettier --write src"
   },
   "dependencies": {
     "bootstrap-datepicker": "^1.10.0",
