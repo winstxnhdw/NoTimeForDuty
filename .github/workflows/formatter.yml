@@ -27,7 +27,7 @@ jobs:
         run: yarn --frozen-lockfile
 
       - name: Fix lints
-        run: yarn turbo lint --fix
+        run: yarn lint --fix
 
       - name: Format with Prettier
         run: yarn turbo format
