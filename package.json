@@ -8,7 +8,7 @@
   "dependencies": {
     "bootstrap-datepicker": "^1.10.0",
     "jquery": "^3.7.0",
-    "tslib": "^2.6.1"
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@types/bootstrap-datepicker": "^0.0.16",
