@@ -16,9 +16,9 @@
     "@typescript-eslint/parser": "^6.13.2",
     "eslint": "^8.55.0",
     "eslint-config-prettier": "^9.1.0",
-    "prettier": "^3.1.0",
+    "prettier": "^3.1.1",
     "turbo": "^1.11.1",
     "typescript": "^5.3.3",
-    "vite": "^5.0.6"
+    "vite": "^5.0.7"
   }
 }
